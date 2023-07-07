@@ -5,21 +5,6 @@ use actors::*;
 use json::*;
 use tiny_tokio_actor::*;
 
-#[derive(Clone, Debug)]
-struct Event(String);
-impl SystemEvent for Event {}
-
-#[async_trait]
-impl Actor<Event> for HeadlineActor {
-    async fn pre_start(&mut self, _: &mut ActorContext<Event>) -> Result<(), ActorError> {
-        match std::env::var("NEWSAPI_KEY") {
-            Ok(key) => self.key = key,
-            Err(_) => (),
-        }
-        Ok(())
-    }
-}
-
 #[async_trait]
 impl Handler<Event, HeadlineMessage> for HeadlineActor {
     async fn handle(
@@ -46,17 +31,6 @@ impl Handler<Event, HeadlineMessage> for HeadlineActor {
             }
             Err(e) => Err(ActorError::CreateError(format!("ERROR {}", e.status()))),
         }
-    }
-}
-
-#[async_trait]
-impl Actor<Event> for GeneratePostActor {
-    async fn pre_start(&mut self, _: &mut ActorContext<Event>) -> Result<(), ActorError> {
-        match std::env::var("OPENAI_KEY") {
-            Ok(key) => self.key = key,
-            Err(_) => (),
-        }
-        Ok(())
     }
 }
 

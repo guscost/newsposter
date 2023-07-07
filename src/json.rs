@@ -1,5 +1,6 @@
 use serde::Deserialize;
 
+// NewsAPI response data
 #[derive(Deserialize, Debug)]
 pub struct JsonNewsResponse {
     pub articles: Vec<JsonNewsItem>,
@@ -10,6 +11,7 @@ pub struct JsonNewsItem {
     pub url: String,
 }
 
+// OpenAI response data
 #[derive(Deserialize, Debug)]
 pub struct JsonGeneratePostResponse {
     pub choices: Vec<JsonGeneratePostItem>,
